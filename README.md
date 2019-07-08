@@ -7,8 +7,8 @@ For example the method below does not use the returned value of the `WhenAll` me
 ```C#
         /// <summary>
         /// Notice that this method returns a <see cref="Task"/> but is Not async
-        /// Callers may choose the materialize the result by awaiting the returned
-        /// <see cref="Task"/> and using the ContinueWith callback, or not materializing
+        /// Callers may choose to materialize the result by awaiting the returned
+        /// <see cref="Task"/> or using the ContinueWith callback, or not materializing
         /// the returned task and simply passing it to their caller if they don't need the
         /// result of the task themselves.
         /// Since the only place this method would have an "await" would be in the last line
