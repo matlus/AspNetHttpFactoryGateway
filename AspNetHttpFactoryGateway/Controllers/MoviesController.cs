@@ -22,11 +22,17 @@ namespace AspNetHttpFactoryGateway.Controllers
         [HttpGet("getallmovies")]
         public IEnumerable<IEnumerable<Movie>> GetAllMovies()
         {
-            return _movieManager.GetAllMoviesAsync()
+            return _movieManager.GetAllMovies()
             .ContinueWith(moviesTask =>
             {
                 return moviesTask.Result;
             }).Result;
+        }
+
+        [HttpGet("getallmovies2")]
+        public async Task<IEnumerable<IEnumerable<Movie>>> GetAllMovies2()
+        {
+            return await _movieManager.GetAllMovies();
         }
     }
 }
