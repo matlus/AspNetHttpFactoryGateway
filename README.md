@@ -1,4 +1,4 @@
-# AspNetHttpFactoryGateway
+# Asp.Net Core To Await or Not To Await
 This projects shows how to use inherently async APIs without using the async-await modifiers. As well, this project demonstrates the best practice with regards to "To Await, or not to "Await", thus reducing the potential overhead of async-await
 When working with async-await most people think one needs to (or must) await any method they’re calling that is “awaitable”, i.e. a method is is marked with the async modifier and returns a Task or Task<T>. This will work, but is not the correctly way to think about async-await.
 Every method that is marked with the async modifier has additional overhead. Each time you await some method there is some additional overhead. So only await an async method if you need the result of the method within the method itself. If you’re simply passing the result on to the caller, then return the task of the method you’re calling rather than awaiting it. There is no change to the signature of the methods in question.
