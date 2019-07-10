@@ -3,6 +3,8 @@ This projects shows how to use inherently async APIs without using the async-awa
 When working with async-await most people think one needs to (or must) await any method they’re calling that is “awaitable”, i.e. a method is is marked with the async modifier and returns a Task or Task<T>. This will work, but is not the correctly way to think about async-await.
 Every method that is marked with the async modifier has additional overhead. Each time you await some method there is some additional overhead. So only await an async method if you need the result of the method within the method itself. If you’re simply passing the result on to the caller, then return the task of the method you’re calling rather than awaiting it. There is no change to the signature of the methods in question.
 
+>It should be noted that in ASP.NET Core, there is no synchronization context. That means using `GetAwaiter().GetResult()` or `.Result` >or `.Wait()` will not cause deadlocks. Of course, without a synchronization context, it is imperative that your code is stateless and >threadsafe.
+
 For example the method below does not use the returned value of the `WhenAll` method (which is an awaitable method). So there is no need to await it in this method. The Caller is free to await it or pass it on to its Caller if need be
 ```C#
         /// <summary>
