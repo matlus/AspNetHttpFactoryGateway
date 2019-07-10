@@ -55,6 +55,21 @@ Finally the Web API Controller that is making use of the result has two options.
             return await _movieManager.GetAllMovies();
         }
 ```
+Below are the results of scalability testing use the following styles of writing code that is making I/O calls
+
+### Await all the way
+This is what one would do when you’re able to use the async-await feature. Every method marked with the async modifier has at least one await. So effectively, every method in the call chain has a state machine generated for it and the code for these state machines are a lot of code and a few allocations as well. This style of code will have some overhead with regards to working set memory as well as GC. But is not bad (unless you’re having GC issues).
+
+### ContinueWith() in Controller
+Not able to use async-await but one or more calls in the Request chain are I/O bound so you want to/should use async I/O. So call that make the I/O call returns a task and all other methods in the chain return the Task (rather than await and unwrap the Task). The controller (the entrypoint) then uses ContinueWith() since its action method can’t be marked with the async modifier.
+
+### Await Only in Controller
+The controller’s action method is marked with the async modifier, the rest of the code in the call chain cannot mark their methods with the asyc modifier, so that return a Task instead. Effectively the code is async with a reduced overhead (working set as well as GC) since all other methods in the call chain are not marked with the async modifier and so no state machine needs to be generated for each of these methods. Only the Controller’s action method has a state machine being generated.
+
+### GetAwaiter().GetResult()
+This is the synchronous/blocking way of doing I/O bound work if/when you’re not able to use async-await. This is not recommended in the .Net Framework as it can/will cause dead-locks. However, in ASP.NET  Core, there is no synchronization context and thus there is no feature of dead-locks. However, you do have to ensure your code is stateless and threadsafe in ASP.NET Core applications. Using thread synchronization primitives anywhere in the call-chain could result in drastically poor performance.
+
+### And the Results:
 
 | Implementation | async Modifier | Endpoint | Requests Per Second |
 |----------------|----------------|----------|---------------------|
