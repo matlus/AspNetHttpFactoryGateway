@@ -15,7 +15,7 @@ namespace AspNetHttpFactoryGateway.Controllers
         [HttpGet("getallmoviesasync")]
         public async Task<IEnumerable<IEnumerable<Movie>>> GetAllMoviesAsync()
         {
-            return await _movieManager.GetAllMoviesAsync().ConfigureAwait(false);
+            return await _movieManager.GetAllMoviesAsync();
 
         }
 
@@ -33,6 +33,12 @@ namespace AspNetHttpFactoryGateway.Controllers
         public async Task<IEnumerable<IEnumerable<Movie>>> GetAllMovies2()
         {
             return await _movieManager.GetAllMovies();
+        }
+
+        [HttpGet("getallmoviessync")]
+        public IEnumerable<IEnumerable<Movie>> GetAllMoviesSync()
+        {
+            return _movieManager.GetAllMovies().GetAwaiter().GetResult();
         }
     }
 }

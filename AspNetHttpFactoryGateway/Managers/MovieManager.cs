@@ -14,14 +14,14 @@ namespace AspNetHttpFactoryGateway.Managers
             _movieServiceGateway = MakeMovieServiceGateway();
         }
 
-        public Task<IEnumerable<Movie>[]> GetAllMovies()
-        {
-            return _movieServiceGateway.GetAllMovies();
-        }
-
         public async Task<IEnumerable<IEnumerable<Movie>>> GetAllMoviesAsync()
         {
             return await _movieServiceGateway.GetAllMoviesAsync();
+        }
+
+        public Task<IEnumerable<Movie>[]> GetAllMovies()
+        {
+            return _movieServiceGateway.GetAllMovies();
         }
 
         private MovieServiceGateway MakeMovieServiceGateway()
