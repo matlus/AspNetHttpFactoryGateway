@@ -53,3 +53,11 @@ Finally the Web API Controller that is making use of the result has two options.
             return await _movieManager.GetAllMovies();
         }
 ```
+
+| Implementation | async Modifier | Endpoint | Requests Per Second |
+|----------------|----------------|----------|---------------------|
+| await all the way |	Yes | GetAllMoviesAsync | 1536.46 |
+| ContinueWith in Controller | No | GetAllMovies | 1542.57 |
+| await only in Controller | Yes | GetAllMovies2 | 1588.13 |
+| .GetAwaiter().GetResult() in Controller | No | GetAllMoviesSync | 1375.76 |
+
