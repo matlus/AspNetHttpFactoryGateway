@@ -55,7 +55,7 @@ Finally the Web API Controller that is making use of the result has two options.
             return await _movieManager.GetAllMovies();
         }
 ```
-Below are the results of scalability testing use the following styles of writing code that is making I/O calls
+Since there are many ways to write I/O related code in C# (Some blocking, some async etc.) I've done to scalability/load testing using the following styles. The results are at the bottom.
 
 ### Await all the way
 This is what one would do when you’re able to use the async-await feature. Every method marked with the async modifier has at least one await. So effectively, every method in the call chain has a state machine generated for it and the code for these state machines are a lot of code and a few allocations as well. This style of code will have some overhead with regards to working set memory as well as GC. But is not bad (unless you’re having GC issues).
