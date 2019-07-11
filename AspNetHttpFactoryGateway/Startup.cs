@@ -34,7 +34,6 @@ namespace AspNetHttpFactoryGateway
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
             app.UseMvc();
         }
     }
